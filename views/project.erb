@@ -1,0 +1,32 @@
+<h3>Project Name: <%= @project.name %> </h3>
+<h4>Description: <%= @project.description %> </h4>
+
+<% @project.employees.each do |employee| %>
+  <a href="/project/<%= @project.id %>/employee/<%= employee.id %>"><p><%= employee.name %></p></a>
+<% end %>
+
+<h3>Add an employee to the project: </h3>
+<form action="/project/<%= @project.id %>/employee_select" method="post">
+  <input type="hidden" name="_method" value="patch">
+  <label for="employee_id">Select an employee:</label>
+  <select id='employee_id' name='employee_id' type='text'>
+    <% @employees.each() do |employee| %>
+      <option value="<%= employee.id()%>"> <%= employee.name() %> </option>
+    <% end %>
+  </select>
+
+  <button type="submit">Add employee</button>
+</form>
+
+<h3>Edit <%= @project.name %></h3>
+
+<form action="/project/<%= @project.id %>/update" method="post">
+  <input type="hidden" name="_method" value="patch">
+  <input type="text" name="name" value="<%= @project.name %>">
+  <button type="submit" name="button">DO IT</button>
+</form>
+<br>
+<form action="/project/<%= @project.id %>/delete" method="post">
+  <input type="hidden" name="_method" value="delete">
+  <button type="submit" class="btn btn-danger">Delete</button>
+</form>

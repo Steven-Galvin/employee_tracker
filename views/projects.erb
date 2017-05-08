@@ -1,0 +1,11 @@
+<h3>Projects</h3>
+
+<% @projects.each do |project| %>
+  <a href="/project/<%= project.id %>"><p><%= project.name %></p></a>
+<% end %>
+
+<form action="/add_project" method="post">
+  <input type="text" name="name" placeholder="Add project name here">
+  <input type="text" name="description" placeholder="Add description here">
+  <button type="submit" name="button">Add Project</button>
+</form>

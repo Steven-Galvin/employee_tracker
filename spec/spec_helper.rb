@@ -4,6 +4,7 @@ require "pg"
 require "sinatra/activerecord"
 require "division"
 require "employee"
+require "project"
 require "pry"
 
 

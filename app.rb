@@ -3,6 +3,7 @@ require 'sinatra/reloader'
 require 'sinatra/activerecord'
 require './lib/division'
 require './lib/employee'
+require './lib/project'
 require 'pry'
 
 also_reload('lib/**/*.rb')
@@ -50,7 +51,7 @@ patch '/division/:id/update' do
   redirect("/division/#{current_division.id}")
 end
 
-#ADD EMPLOYEE
+#ADD DIVISION EMPLOYEE
 post '/division/:id/add_employee' do
   division_id = params['id']
   name = params['name']
@@ -58,11 +59,11 @@ post '/division/:id/add_employee' do
   redirect("/division/#{division_id}")
 end
 
-#EMPLOYEE PAGE/UPDATE
+#DIVISION EMPLOYEE UPDATE/DELETE
 get '/division/:division_id/employee/:employee_id' do
   @division = Division.find(params['division_id'])
   @employee = Employee.find(params['employee_id'])
-  erb(:employee)
+  erb(:division_employee)
 end
 
 patch '/division/:division_id/employee/:employee_id' do
@@ -79,4 +80,80 @@ delete '/division/:division_id/employee/:employee_id/delete' do
   employee = Employee.find(params['employee_id'])
   employee.destroy
   redirect("/division/#{division_id}")
+end
+
+
+#PROJECTS PAGE
+get '/projects' do
+  @projects = Project.all
+  erb(:projects)
+end
+
+post '/add_project' do
+  name = params['name']
+  description = params['description']
+  Project.new(:name => name, :description => description).save
+  redirect("/projects")
+end
+
+#PROJECT PAGE
+get '/project/:id' do
+  @project = Project.find(params['id'])
+  @employees = Employee.all
+  erb(:project)
+end
+
+patch '/project/:id/employee_select' do
+  project_id = params['id']
+  employee = Employee.find(params['employee_id'].to_i)
+  employee.update(:project_id => project_id)
+  redirect("/project/#{project_id}")
+end
+
+get '/project/:project_id/employee/:employee_id' do
+  @project = Project.find(params['project_id'])
+  @employee = Employee.find(params['employee_id'])
+  erb(:project_employee)
+end
+
+#PROJECT EMPLOYEE UPDATE/DELETE
+
+patch '/project/:project_id/employee/:employee_id' do
+  project_id = params['project_id']
+  employee_id = params['employee_id']
+  name = params['name']
+  current_employee = Employee.find(employee_id)
+  current_employee.update(:name => name)
+  redirect ("/project/#{project_id}/employee/#{employee_id}")
+end
+
+delete '/project/:project_id/employee/:employee_id/delete' do
+  project_id = params['project_id']
+  employee = Employee.find(params['employee_id'])
+  employee.destroy
+  redirect("/project/#{project_id}")
+end
+
+
+# PROJECT UPDATE/DELETE
+
+delete '/project/:id/delete' do
+  current_project = Project.find(params['id'])
+  current_project.destroy
+  redirect '/projects'
+end
+
+
+patch '/project/:id/update' do
+  current_project = Project.find(params['id'])
+  name = params['name']
+  current_project.update(:name => name)
+  redirect("/project/#{current_project.id}")
+end
+
+
+# EMPLOYEE LISTS
+get '/employees' do
+  @employees = Employee.all
+  erb(:employees)
 end

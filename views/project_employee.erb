@@ -1,0 +1,14 @@
+<h3>Employee name: <%= @employee.name %></h3>
+<h4>Project: <%= @project.name %></h4>
+<br>
+
+<form action="/project/<%= @project.id %>/employee/<%= @employee.id %>" method="post">
+  <input type="hidden" name="_method" value="patch">
+  <input type="text" name="name" value="<%= @employee.name %>">
+  <button type="submit" name="button">Update name</button>
+</form>
+
+<form action="/project/<%= @project.id %>/employee/<%= @employee.id %>/delete" method="post">
+  <input type="hidden" name="_method" value="delete">
+  <button class="btn btn-danger" type="submit">DELETE</button>
+</form>
