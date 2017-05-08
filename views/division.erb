@@ -1,0 +1,16 @@
+<h3><%= @division.name %></h3>
+
+<% @div_employees.each do |employee| %>
+  <a href="/division/<%= @division.id %>/employee/<%= employee.id %>"><p><%= employee.name %></p></a>
+<% end %>
+
+<form action="/division/<%= @division.id %>/add_employee" method="post">
+    <input type="text" name="name" placeholder="Employee name">
+    <button type="submit" name="button">Add Employee</button>
+</form>
+
+<a href="/division/<%= @division.id %>/update">Update division</a>
+<form action="/division/<%= @division.id %>/delete" method="post">
+  <input type="hidden" name="_method" value="delete">
+  <button class="btn btn-danger" type="submit">DELETE</button>
+</form>
