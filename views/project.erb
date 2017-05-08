@@ -2,14 +2,14 @@
 <h4>Description: <%= @project.description %> </h4>
 
 <% @project.employees.each do |employee| %>
-  <a href="/project/<%= @project.id %>/employee/<%= employee.id %>"><p><%= employee.name %></p></a>
+  <a href="/employee/<%= employee.id %>"><p><%= employee.name %></p></a>
 <% end %>
 
 <h3>Add an employee to the project: </h3>
 <form action="/project/<%= @project.id %>/employee_select" method="post">
   <input type="hidden" name="_method" value="patch">
   <label for="employee_id">Select an employee:</label>
-  <select id='employee_id' name='employee_id' type='text'>
+  <select id='employee_id' name='employee_id' type='text' required>
     <% @employees.each() do |employee| %>
       <option value="<%= employee.id()%>"> <%= employee.name() %> </option>
     <% end %>

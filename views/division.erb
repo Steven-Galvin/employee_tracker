@@ -1,7 +1,7 @@
 <h3><%= @division.name %></h3>
 
 <% @div_employees.each do |employee| %>
-  <a href="/division/<%= @division.id %>/employee/<%= employee.id %>"><p><%= employee.name %></p></a>
+  <a href="/employee/<%= employee.id %>"><p><%= employee.name %></p></a>
 <% end %>
 
 <form action="/division/<%= @division.id %>/add_employee" method="post">

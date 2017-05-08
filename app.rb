@@ -59,28 +59,6 @@ post '/division/:id/add_employee' do
   redirect("/division/#{division_id}")
 end
 
-#DIVISION EMPLOYEE UPDATE/DELETE
-get '/division/:division_id/employee/:employee_id' do
-  @division = Division.find(params['division_id'])
-  @employee = Employee.find(params['employee_id'])
-  erb(:division_employee)
-end
-
-patch '/division/:division_id/employee/:employee_id' do
-  division_id = params['division_id']
-  employee_id = params['employee_id']
-  name = params['name']
-  current_employee = Employee.find(employee_id)
-  current_employee.update(:name => name)
-  redirect ("/division/#{division_id}/employee/#{employee_id}")
-end
-
-delete '/division/:division_id/employee/:employee_id/delete' do
-  division_id = params['division_id']
-  employee = Employee.find(params['employee_id'])
-  employee.destroy
-  redirect("/division/#{division_id}")
-end
 
 
 #PROJECTS PAGE
@@ -110,28 +88,9 @@ patch '/project/:id/employee_select' do
   redirect("/project/#{project_id}")
 end
 
-get '/project/:project_id/employee/:employee_id' do
-  @project = Project.find(params['project_id'])
+get '/employee/:employee_id' do
   @employee = Employee.find(params['employee_id'])
-  erb(:project_employee)
-end
-
-#PROJECT EMPLOYEE UPDATE/DELETE
-
-patch '/project/:project_id/employee/:employee_id' do
-  project_id = params['project_id']
-  employee_id = params['employee_id']
-  name = params['name']
-  current_employee = Employee.find(employee_id)
-  current_employee.update(:name => name)
-  redirect ("/project/#{project_id}/employee/#{employee_id}")
-end
-
-delete '/project/:project_id/employee/:employee_id/delete' do
-  project_id = params['project_id']
-  employee = Employee.find(params['employee_id'])
-  employee.destroy
-  redirect("/project/#{project_id}")
+  erb(:employee)
 end
 
 
@@ -156,4 +115,25 @@ end
 get '/employees' do
   @employees = Employee.all
   erb(:employees)
+end
+
+get '/employee/:employee_id' do
+  @employee = Employee.find(params['employee_id'])
+  erb(:employee)
+end
+
+patch '/employee/:employee_id' do
+  division_id = params['division_id']
+  employee_id = params['employee_id']
+  name = params['name']
+  current_employee = Employee.find(employee_id)
+  current_employee.update(:name => name)
+  redirect ("/employee/#{employee_id}")
+end
+
+delete '/employee/:employee_id/delete' do
+  employee = Employee.find(params['employee_id'])
+  division_id = employee.division_id
+  employee.destroy
+  redirect("/division/#{division_id}")
 end
